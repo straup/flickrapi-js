@@ -33,7 +33,7 @@ Flickr:
 	fl.upload(bytes, {'auth_token': auth_token});
 
 IMPORTANT: This is still plain old Javascript and if you fill in all those
-FLICKR API_* and AUTH_* variables with real data and then put them on the
+FLICKR API_(STUFF) and AUTH_(STUFF) variables with real data and then put them on the
 public Internet **any one will be able to see them, steal them and start
 uploading stuff to that account**.
 
