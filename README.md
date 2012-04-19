@@ -34,7 +34,7 @@ Flickr:
 
 IMPORTANT: This is still plain old Javascript and if you fill in all those
 FLICKR `API` and `AUTH` variables with real data and then put them on the
-public Internet **any one will be able to see them, steal them and start
+public Internet **anyone will be able to see them, steal them and start
 uploading stuff to that account**.
 
 This is not a magic pony so be careful how you use it and where.
