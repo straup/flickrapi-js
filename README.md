@@ -8,7 +8,7 @@ Opera.
 Uploads in Webkit related browsers should be possible but I've not gotten around
 to working out the details yet.
 
-Here's an example of how you might upload the contents of a <canvas> element to
+Here's an example of how you might upload the contents of a `canvas` element to
 Flickr:
 
 	var api_key = 'FLICKR_API_KEY';
