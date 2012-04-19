@@ -18,7 +18,7 @@ Flickr:
 	var canvas = document.getElementById("some-canvas-thing");
 
 	// note: the base64_decode function is left as an exercise to
-	// the reader; I use the canvas2bytes method in 'canvasutils'
+	// the reader; I use the canvas2bytes method in 'canvasutils-js'
 	// https://github.com/straup/canvasutils-js
 	
 	var data = canvas.toDataURL();
