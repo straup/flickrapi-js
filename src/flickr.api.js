@@ -39,7 +39,17 @@ from.yahoo.flickr.api = function(api_key, api_secret){
 	args['api_sig'] = api_sig;
 	args['photo'] = bytes;
 
-	this._upload(args);
+	if (typeof(bytes) === 'string'){
+	    return this._upload_binary(args);
+	}
+
+	/*
+	  this doesn't work as expected yet, I'm not sure
+	  why but I am assuming it has to do with remaining
+	  weirdness around how blobs are implemented...
+	*/
+	   
+	return this._upload_blob(args);
     };
     
     fl.sign_args = function(args){
@@ -73,9 +83,36 @@ from.yahoo.flickr.api = function(api_key, api_secret){
 	return hex_md5(raw);	
     };
 
+    /*
+      this is the "correct" way to do things except for the
+      part where it just causes a black square to be uploaded
+      in firefox and a white one in safari...
+    */
+
+    fl._upload_blob = function(args){
+
+	var fd = new FormData();
+
+	for (var k in args){
+	    fd.append(k, args[k]);
+	}
+
+	var xhr = new XMLHttpRequest();  
+        xhr.open("POST", 'http://api.flickr.com/services/upload/', true);
+
+        xhr.onreadystatechange = function(){
+            if (xhr.readyState === 4){
+		// DO SOMETHING HERE...
+                // console.log(xhr);
+            }
+        };
+
+	xhr.send(fd);
+    };
+
     /* https://github.com/igstan/ajax-file-upload */
 
-    fl._upload = function(params){
+    fl._upload_binary = function(params){
 
         var boundary = this._generate_multipart_boundary();
         var xhr = new XMLHttpRequest;
@@ -140,7 +177,6 @@ from.yahoo.flickr.api = function(api_key, api_secret){
 };
 
 /* http://javascript0.org/wiki/Portable_sendAsBinary */
-/* http://hublog.hubmed.org/archives/001941.html (TO DO) */
 
 if (XMLHttpRequest.prototype.sendAsBinary == undefined){
 
@@ -151,11 +187,14 @@ if (XMLHttpRequest.prototype.sendAsBinary == undefined){
     */
 
     XMLHttpRequest.prototype.sendAsBinary = function(datastr){
+
 	function byteValue(x) {
 	    return x.charCodeAt(0) & 0xff;
 	}
+
 	var ords = Array.prototype.map.call(datastr, byteValue);
 	var ui8a = new Uint8Array(ords);
+
 	this.send(ui8a.buffer);
     };
 
