@@ -1,12 +1,11 @@
 flickrapi-js
 --
 
-A Javascript library for talking to the Flickr API. It is currently incomplete
-and only works for uploading files, and only then does it work in Firefox and
-Opera.
+A Javascript library for talking to the Flickr API.
 
-Uploads in Webkit related browsers should be possible but I've not gotten around
-to working out the details yet.
+Uploads in Webkit related browsers should be possible (but isn't unless you
+count uploading empty images as technically "working") and I've not gotten
+around to working out the details yet.
 
 Here's an example of how you might upload the contents of a `canvas` element to
 Flickr:
@@ -32,9 +31,25 @@ Flickr:
 	var fl = flickr.api(api_key, api_secret);
 	fl.upload(bytes, {'auth_token': auth_token});
 
+To do a plain old un-authenticated API call you might do:
+
+	var callback = function(rsp){
+		console.log(rsp);
+	};
+	
+	var fl = flickr.api(api_key);
+	fl.api_call('flickr.photos.getInfo', {'photo_id': 6948301294}, callback);
+
 IMPORTANT: This is still plain old Javascript and if you fill in all those
 FLICKR `API` and `AUTH` variables with real data and then put them on the
 public Internet **anyone will be able to see them, steal them and start
 uploading stuff to that account**.
 
 This is not a magic pony so be careful how you use it and where.
+
+Caveats
+--
+
+* Uploading files still only works in Firefox and Opera.
+
+* Uploading files still lack a callback mechanism/flow.
