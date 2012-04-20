@@ -273,9 +273,9 @@ from.yahoo.flickr.api = function(api_key, api_secret){
 
     var fl = {};
 
-    fl.api_call = function(method, args){
+    fl.api_call = function(method, args, callback){
 
-	args['api_key'] = key;
+	args['api_key'] = api_key;
 	args['method'] = method;
 	args['format'] = 'json';
 	args['nojsoncallback'] = 1;
@@ -285,7 +285,35 @@ from.yahoo.flickr.api = function(api_key, api_secret){
 	    args['api_sig'] = api_sig;
 	}
 
-	// please to write me...
+	var fd = new FormData();
+
+	for (var k in args){
+	    fd.append(k, args[k]);
+	}
+
+	var xhr = new XMLHttpRequest();  
+        xhr.open("POST", 'http://api.flickr.com/services/rest/', true);
+
+        xhr.onreadystatechange = function(){
+            if (xhr.readyState === 4){
+
+		if (! callback){
+		    return;
+		}
+
+		try {
+		    rsp = JSON.parse(xhr.responseText);
+		    callback(rsp);
+		}
+
+		catch(e){
+		    callback({'stat': 'error', 'error': { 'code': 999, 'message': 'failed to parse JSON' }});
+		}
+
+            }
+        };
+
+	xhr.send(fd);
     };
 
     fl.upload = function(bytes, args){
