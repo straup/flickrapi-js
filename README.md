@@ -3,7 +3,7 @@ flickrapi-js
 
 A Javascript library for talking to the Flickr API.
 
-Uploads in Webkit related browsers should be possible (but isn't unless you
+Uploads in Webkit related browsers should be possible (but aren't unless you
 count uploading empty images as technically "working") and I've not gotten
 around to working out the details yet.
 
